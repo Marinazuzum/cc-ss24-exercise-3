@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <h1>Authors</h1>
+    <ul>
+        {{range .Authors}}
+            <li>{{.}}</li>
+        {{else}}
+            <li>No authors found.</li>
+        {{end}}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>

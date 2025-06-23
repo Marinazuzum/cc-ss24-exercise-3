@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: testmongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    image: marinazhdanova/go-bookstore:latest
+    container_name: go-bookstore
+    depends_on:
+      - mongo
+    environment:
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - ./views:/app/views
+      - ./css:/app/css
+
+volumes:
+  mongo_data:

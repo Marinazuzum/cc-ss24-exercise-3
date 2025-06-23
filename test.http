@@ -1,0 +1,39 @@
+
+### Get all books
+GET http://localhost:3030/api/books
+Accept: application/json
+
+### Create a new book
+POST http://localhost:3030/api/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "test1",
+  "title": "Test Book",
+  "author": "Test Author",
+  "pages": "123",
+  "edition": "1st",
+  "year": "2025"
+}
+
+### Get a book by ID
+GET http://localhost:3030/api/books/test1
+Accept: application/json
+
+### Update a book by ID
+PUT http://localhost:3030/api/books/test1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Updated Test Book",
+  "author": "Updated Author",
+  "pages": "456",
+  "edition": "2nd",
+  "year": "2026"
+}
+
+### Delete a book by ID
+DELETE http://localhost:3030/api/books/test1
+Accept: application/json
