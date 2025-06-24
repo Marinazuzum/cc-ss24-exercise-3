@@ -130,7 +130,7 @@ func main() {
 	e.Static("/css", "css")
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index.html", nil) // Ensure correct template name
+		return c.Render(http.StatusOK, "index", nil) // Ensure correct template name
 	})
 
 	e.GET("/books", func(c echo.Context) error {
@@ -139,7 +139,7 @@ func main() {
 			log.Printf("Error in GET /books (findAllBooks): %v", err)
 			return c.Render(http.StatusInternalServerError, "error.html", map[string]string{"message": "Failed to load books"})
 		}
-		return c.Render(http.StatusOK, "book-table.html", books) // Ensure correct template name
+		return c.Render(http.StatusOK, "book-table", books) // Ensure correct template name
 	})
 
 	e.GET("/authors", func(c echo.Context) error {
