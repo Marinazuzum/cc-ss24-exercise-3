@@ -13,6 +13,7 @@ services:
 
   api_get_books:
     build: ./services/api_get_books
+    image: marinazhdanova/bookstore-api_get_books:latest
     container_name: api_get_books
     restart: always
     environment:
@@ -24,6 +25,7 @@ services:
 
   api_post_books:
     build: ./services/api_post_books
+    image: marinazhdanova/bookstore-api_post_books:latest
     container_name: api_post_books
     restart: always
     environment:
@@ -35,6 +37,7 @@ services:
 
   api_put_books:
     build: ./services/api_put_books
+    image: marinazhdanova/bookstore-api_put_books:latest
     container_name: api_put_books
     restart: always
     environment:
@@ -46,6 +49,7 @@ services:
 
   api_delete_books:
     build: ./services/api_delete_books
+    image: marinazhdanova/bookstore-api_delete_books:latest
     container_name: api_delete_books
     restart: always
     environment:
@@ -57,6 +61,7 @@ services:
 
   frontend_renderer:
     build: ./services/frontend_renderer
+    image: marinazhdanova/bookstore-frontend_renderer:latest
     container_name: frontend_renderer
     restart: always
     environment:
