@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Years</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <h1>Years</h1>
+    <ul>
+        {{range .Years}}
+            <li>{{.}}</li>
+        {{else}}
+            <li>No years found.</li>
+        {{end}}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>

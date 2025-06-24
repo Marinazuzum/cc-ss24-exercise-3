@@ -1,31 +1,87 @@
-version: '3.8'
 services:
   mongo:
     image: mongo:7.0
     container_name: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongodb
-      MONGO_INITDB_ROOT_PASSWORD: testmongo
-    ports:
+      MONGO_INITDB_ROOT_USERNAME: mongodb # User for Mongo
+      MONGO_INITDB_ROOT_PASSWORD: testmongo # Password for Mongo
+    ports: # Exposing mongo to host primarily for debugging/direct access if needed
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
-  app:
-    build: .
-    image: marinazhdanova/go-bookstore:latest
-    container_name: go-bookstore
+  api_get_books:
+    build: ./services/api_get_books
+    container_name: api_get_books
+    restart: always
+    environment:
+      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    expose:
+      - "3001" # Internal port, Nginx will access this
     depends_on:
       - mongo
-    environment:
-      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
-    ports:
-      - "3000:3000"
+
+  api_post_books:
+    build: ./services/api_post_books
+    container_name: api_post_books
     restart: always
+    environment:
+      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    expose:
+      - "3002"
+    depends_on:
+      - mongo
+
+  api_put_books:
+    build: ./services/api_put_books
+    container_name: api_put_books
+    restart: always
+    environment:
+      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    expose:
+      - "3003"
+    depends_on:
+      - mongo
+
+  api_delete_books:
+    build: ./services/api_delete_books
+    container_name: api_delete_books
+    restart: always
+    environment:
+      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    expose:
+      - "3004"
+    depends_on:
+      - mongo
+
+  frontend_renderer:
+    build: ./services/frontend_renderer
+    container_name: frontend_renderer
+    restart: always
+    environment:
+      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+    expose:
+      - "3005"
+    depends_on:
+      - mongo
+    # views and css are copied into its build context (services/frontend_renderer/)
+    # and then into the image by its Dockerfile.
+
+  nginx:
+    image: nginx:1.25-alpine # Using a specific alpine version
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80" # External port 80 maps to Nginx container's port 80
     volumes:
-      - ./views:/app/views
-      - ./css:/app/css
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api_get_books
+      - api_post_books
+      - api_put_books
+      - api_delete_books
+      - frontend_renderer
 
 volumes:
   mongo_data:
