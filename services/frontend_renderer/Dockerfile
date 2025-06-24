@@ -1,14 +1,9 @@
 # Build stage
-FROM golang:1.22 as builder
+FROM golang:1.22 AS builder
 WORKDIR /app
 
-# Copy go.mod and go.sum first to leverage Docker cache
-COPY go.mod go.sum ./
-RUN go mod download
-RUN go mod tidy
-
-# Copy the service's Go source files
 COPY . .
+RUN go mod tidy
 
 # Copy views and css directories from the repository root into the builder stage
 # These paths are relative to the Dockerfile's location if the build context is services/frontend_renderer
@@ -46,5 +41,5 @@ COPY --from=builder /app/frontend_renderer_service .
 COPY views/ ./views/
 COPY css/ ./css/
 
-EXPOSE 3005 # Port defined in its main.go
+EXPOSE 3005
 CMD ["./frontend_renderer_service"]
