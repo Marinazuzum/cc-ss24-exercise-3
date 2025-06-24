@@ -16,7 +16,7 @@ services:
     container_name: api_get_books
     restart: always
     environment:
-      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
     expose:
       - "3001" # Internal port, Nginx will access this
     depends_on:
@@ -27,7 +27,7 @@ services:
     container_name: api_post_books
     restart: always
     environment:
-      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
     expose:
       - "3002"
     depends_on:
@@ -38,7 +38,7 @@ services:
     container_name: api_put_books
     restart: always
     environment:
-      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
     expose:
       - "3003"
     depends_on:
@@ -49,7 +49,7 @@ services:
     container_name: api_delete_books
     restart: always
     environment:
-      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
     expose:
       - "3004"
     depends_on:
@@ -60,7 +60,7 @@ services:
     container_name: frontend_renderer
     restart: always
     environment:
-      MONGO_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
+      DATABASE_URI: mongodb://mongodb:testmongo@mongo:27017/exercise-1?authSource=admin
     expose:
       - "3005"
     depends_on:

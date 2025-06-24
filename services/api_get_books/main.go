@@ -103,9 +103,9 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second) // Increased timeout
 	defer cancel()
 
-	uri := os.Getenv("MONGO_URI")
+	uri := os.Getenv("DATABASE_URI")
 	if uri == "" {
-		log.Println("MONGO_URI not set, using default localhost URI")
+		log.Println("DATABASE_URI not set, using default localhost URI")
 		uri = "mongodb://localhost:27017/exercise-1?authSource=admin"
 	}
 
@@ -121,10 +121,10 @@ func main() {
 	}()
 
 	// Ping the primary
-    if err := client.Ping(ctx, nil); err != nil {
-        log.Fatalf("Failed to ping MongoDB: %v", err)
-    }
-    log.Println("Successfully connected and pinged MongoDB.")
+	if err := client.Ping(ctx, nil); err != nil {
+		log.Fatalf("Failed to ping MongoDB: %v", err)
+	}
+	log.Println("Successfully connected and pinged MongoDB.")
 
 	coll, err := prepareDatabase(client, "exercise-1", "information")
 	if err != nil {

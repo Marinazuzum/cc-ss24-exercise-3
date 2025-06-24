@@ -93,9 +93,9 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
-	uri := os.Getenv("MONGO_URI")
+	uri := os.Getenv("DATABASE_URI")
 	if uri == "" {
-		log.Println("MONGO_URI not set, using default localhost URI")
+		log.Println("DATABASE_URI not set, using default localhost URI")
 		uri = "mongodb://localhost:27017/exercise-1?authSource=admin"
 	}
 
@@ -111,9 +111,9 @@ func main() {
 	}()
 
 	if err := client.Ping(ctx, nil); err != nil {
-        log.Fatalf("Failed to ping MongoDB: %v", err)
-    }
-    log.Println("Successfully connected and pinged MongoDB.")
+		log.Fatalf("Failed to ping MongoDB: %v", err)
+	}
+	log.Println("Successfully connected and pinged MongoDB.")
 
 	coll, err := prepareDatabase(client, "exercise-1", "information")
 	if err != nil {
@@ -145,7 +145,7 @@ func main() {
 	e.GET("/authors", func(c echo.Context) error {
 		books, err := findAllBooks(coll)
 		if err != nil {
-            log.Printf("Error in GET /authors (findAllBooks): %v", err)
+			log.Printf("Error in GET /authors (findAllBooks): %v", err)
 			return c.Render(http.StatusInternalServerError, "error.html", map[string]string{"message": "Failed to load authors"})
 		}
 
@@ -165,8 +165,8 @@ func main() {
 	e.GET("/years", func(c echo.Context) error {
 		books, err := findAllBooks(coll)
 		if err != nil {
-            log.Printf("Error in GET /years (findAllBooks): %v", err)
-            return c.Render(http.StatusInternalServerError, "error.html", map[string]string{"message": "Failed to load years"})
+			log.Printf("Error in GET /years (findAllBooks): %v", err)
+			return c.Render(http.StatusInternalServerError, "error.html", map[string]string{"message": "Failed to load years"})
 		}
 		yearSet := make(map[string]struct{})
 		for _, book := range books {
@@ -182,17 +182,16 @@ func main() {
 	})
 
 	// The original main.go had /search and /create, keeping /search for now.
-    // /create returned NoContent, which might not be suitable for a frontend route.
-    // If /search needs a specific template, it should be created.
-    // For now, let's assume search.html exists or it's handled by client-side.
+	// /create returned NoContent, which might not be suitable for a frontend route.
+	// If /search needs a specific template, it should be created.
+	// For now, let's assume search.html exists or it's handled by client-side.
 	e.GET("/search", func(c echo.Context) error {
-        // Assuming search-bar.html is the correct template name from the original `main.go`
+		// Assuming search-bar.html is the correct template name from the original `main.go`
 		return c.Render(http.StatusOK, "search-bar.html", nil)
 	})
-    // e.GET("/create", func(c echo.Context) error {
+	// e.GET("/create", func(c echo.Context) error {
 	// 	return c.NoContent(http.StatusNoContent)
 	// })
-
 
 	port := "3005"
 	log.Printf("Frontend Renderer service starting on port %s", port)
